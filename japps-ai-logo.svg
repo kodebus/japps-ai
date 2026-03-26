@@ -1,0 +1,44 @@
+<svg width="320" height="80" viewBox="0 0 320 80" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#c9a84c"/>
+      <stop offset="100%" stop-color="#e8c96e"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Icon: rounded square -->
+  <rect x="0" y="0" width="80" height="80" rx="22" fill="url(#gold)"/>
+
+  <!-- Circuit lines -->
+  <line x1="20" y1="22" x2="60" y2="22" stroke="#0a1428" stroke-width="2.5" stroke-linecap="round" opacity="0.35"/>
+  <line x1="20" y1="58" x2="60" y2="58" stroke="#0a1428" stroke-width="2.5" stroke-linecap="round" opacity="0.35"/>
+  <line x1="40" y1="22" x2="40" y2="58" stroke="#0a1428" stroke-width="2.5" stroke-linecap="round" opacity="0.35"/>
+
+  <!-- Circuit dots -->
+  <circle cx="20" cy="22" r="4.5" fill="#0a1428" opacity="0.45"/>
+  <circle cx="60" cy="22" r="4.5" fill="#0a1428" opacity="0.45"/>
+  <circle cx="20" cy="58" r="4.5" fill="#0a1428" opacity="0.45"/>
+  <circle cx="60" cy="58" r="4.5" fill="#0a1428" opacity="0.45"/>
+
+  <!-- J letterform -->
+  <text x="40" y="42" text-anchor="middle" dominant-baseline="central"
+        font-family="system-ui, -apple-system, sans-serif"
+        font-size="34" font-weight="900" fill="#0a1428">J</text>
+
+  <!-- Wordmark: Japps -->
+  <text x="96" y="38"
+        font-family="system-ui, -apple-system, sans-serif"
+        font-size="38" font-weight="800" fill="#e8eaf0"
+        letter-spacing="-1">Japps</text>
+
+  <!-- .ai tagline -->
+  <text x="96" y="62"
+        font-family="system-ui, -apple-system, sans-serif"
+        font-size="14" font-weight="700" fill="#c9a84c"
+        letter-spacing="4">.AI</text>
+
+  <text x="148" y="62"
+        font-family="system-ui, -apple-system, sans-serif"
+        font-size="11" fill="#4a6080"
+        letter-spacing="1.5">BUILD ANYTHING</text>
+</svg>
