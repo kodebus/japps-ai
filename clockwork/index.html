@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clockwork - Automatic Time Tracker | japps.ai</title>
+    <meta name="description" content="Automatically track time across all websites. Privacy-focused, 100% local storage. Know exactly where your time goes.">
+    <meta name="keywords" content="time tracker, productivity, automatic, privacy, chrome extension">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="Clockwork - Automatic Time Tracker">
+    <meta property="og:description" content="Track time automatically. 100% private. Free forever.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://japps.ai/clockwork">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            overflow-x: hidden;
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 100px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><circle cx="50" cy="50" r="2" fill="white" opacity="0.1"/></svg>');
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            from { transform: translateY(0) translateX(0); }
+            to { transform: translateY(-100px) translateX(100px); }
+        }
+
+        .hero-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-size: 56px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero-icon {
+            font-size: 80px;
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .hero p {
+            font-size: 24px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        .cta-primary {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 18px 40px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 20px;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 30px rgba(0,0,0,0.3);
+        }
+
+        .cta-secondary {
+            display: inline-block;
+            color: white;
+            padding: 18px 40px;
+            border: 2px solid white;
+            border-radius: 12px;
+            text-decoration: none;
+            font-size: 18px;
+            font-weight: 600;
+            margin-left: 20px;
+            transition: all 0.3s;
+        }
+
+        .cta-secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 80px 20px;
+            background: #f8fafc;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 42px;
+            margin-bottom: 20px;
+            color: #1e293b;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 20px;
+            color: #64748b;
+            margin-bottom: 60px;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .feature-card h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+
+        .feature-card p {
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 80px 20px;
+            background: white;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .step {
+            text-align: center;
+        }
+
+        .step-number {
+            display: inline-block;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 50%;
+            font-size: 28px;
+            font-weight: 700;
+            line-height: 60px;
+            margin-bottom: 20px;
+        }
+
+        .step h3 {
+            font-size: 22px;
+            margin-bottom: 10px;
+            color: #1e293b;
+        }
+
+        .step p {
+            color: #64748b;
+        }
+
+        /* Privacy Focus */
+        .privacy-section {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+            color: white;
+        }
+
+        .privacy-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .privacy-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .privacy-item {
+            padding: 20px;
+        }
+
+        .privacy-item-icon {
+            font-size: 40px;
+            margin-bottom: 15px;
+        }
+
+        /* Testimonials */
+        .testimonials {
+            padding: 80px 20px;
+            background: #f8fafc;
+        }
+
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+
+        .testimonial {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            color: #475569;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: #1e293b;
+        }
+
+        .testimonial-role {
+            color: #64748b;
+            font-size: 14px;
+        }
+
+        /* CTA Section */
+        .final-cta {
+            padding: 100px 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-align: center;
+        }
+
+        .final-cta h2 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .final-cta p {
+            font-size: 22px;
+            margin-bottom: 40px;
+            opacity: 0.95;
+        }
+
+        /* Footer */
+        .footer {
+            background: #1e293b;
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+        }
+
+        .footer a {
+            color: #94a3b8;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: white;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 36px;
+            }
+            
+            .hero p {
+                font-size: 18px;
+            }
+
+            .cta-secondary {
+                display: block;
+                margin: 20px auto 0;
+                max-width: 300px;
+            }
+
+            .section-title {
+                font-size: 32px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-icon">⏱️</div>
+            <h1>Know Exactly Where Your Time Goes</h1>
+            <p>Automatic time tracking for every website. Privacy-focused. Free forever.</p>
+            <a href="https://chrome.google.com/webstore" class="cta-primary">
+                Install Free Chrome Extension
+            </a>
+            <a href="#how-it-works" class="cta-secondary">
+                See How It Works
+            </a>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="container">
+            <h2 class="section-title">Why Clockwork?</h2>
+            <p class="section-subtitle">The smartest way to understand your time</p>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>Completely Automatic</h3>
+                    <p>No timers to start or stop. No manual logging. Just browse normally and Clockwork tracks everything automatically in the background.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🔒</div>
+                    <h3>100% Private</h3>
+                    <p>All data stored locally in YOUR browser. Nothing sent to external servers. No account required. You own your data completely.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Smart Categorization</h3>
+                    <p>Automatically detects 30+ apps including GitHub, Gmail, Slack, Figma, Jira, and more. Categorizes time into Coding, Email, Design, etc.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Beautiful Dashboard</h3>
+                    <p>See today's summary at a glance. Top apps by time spent. Recent activity feed. Clean, modern interface that's a joy to use.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💾</div>
+                    <h3>Export to CSV</h3>
+                    <p>Download your tracked time data for use in Excel, Google Sheets, or any spreadsheet. Perfect for client billing or productivity reports.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Lightweight & Fast</h3>
+                    <p>Minimal resource usage. Works offline. No internet required after installation. Won't slow down your browser.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works" id="how-it-works">
+        <div class="container">
+            <h2 class="section-title">How It Works</h2>
+            <p class="section-subtitle">Get started in under 30 seconds</p>
+            
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <h3>Install Extension</h3>
+                    <p>One-click install from Chrome Web Store. Takes 10 seconds.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <h3>Browse Normally</h3>
+                    <p>Use your browser as usual. Clockwork tracks automatically.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <h3>View Your Stats</h3>
+                    <p>Click the icon anytime to see where your time went.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <h3>Export Reports</h3>
+                    <p>Download CSV for client billing or productivity analysis.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Privacy Focus -->
+    <section class="privacy-section">
+        <div class="container">
+            <div class="privacy-content">
+                <h2 class="section-title">Privacy Matters</h2>
+                <p class="section-subtitle">Your data is yours. Period.</p>
+                
+                <div class="privacy-grid">
+                    <div class="privacy-item">
+                        <div class="privacy-item-icon">🔐</div>
+                        <h4>Local Storage Only</h4>
+                        <p>All data stays in your browser</p>
+                    </div>
+
+                    <div class="privacy-item">
+                        <div class="privacy-item-icon">🚫</div>
+                        <h4>No External Servers</h4>
+                        <p>Nothing transmitted anywhere</p>
+                    </div>
+
+                    <div class="privacy-item">
+                        <div class="privacy-item-icon">👤</div>
+                        <h4>No Account Needed</h4>
+                        <p>Install and use immediately</p>
+                    </div>
+
+                    <div class="privacy-item">
+                        <div class="privacy-item-icon">📵</div>
+                        <h4>No Tracking</h4>
+                        <p>No analytics or cookies</p>
+                    </div>
+                </div>
+
+                <p style="margin-top: 40px; font-size: 18px;">
+                    <a href="https://japps.ai/clockwork/privacy" style="color: white; text-decoration: underline;">Read our full privacy policy →</a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials">
+        <div class="container">
+            <h2 class="section-title">What People Say</h2>
+            <p class="section-subtitle">Join thousands of productive users</p>
+            
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <div class="testimonial-text">
+                        "Finally, a time tracker that actually works automatically! No more forgetting to start timers. Just install and forget about it."
+                    </div>
+                    <div class="testimonial-author">Sarah Chen</div>
+                    <div class="testimonial-role">Freelance Developer</div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-text">
+                        "Love the privacy-first approach. My time tracking data stays mine. No cloud services, no subscriptions, no BS."
+                    </div>
+                    <div class="testimonial-author">Marcus Johnson</div>
+                    <div class="testimonial-role">Product Designer</div>
+                </div>
+
+                <div class="testimonial">
+                    <div class="testimonial-text">
+                        "Saved me hours on weekly time reports. Export to CSV and done. My clients love the detailed breakdowns."
+                    </div>
+                    <div class="testimonial-author">Priya Patel</div>
+                    <div class="testimonial-role">Consultant</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Perfect For -->
+    <section class="how-it-works">
+        <div class="container">
+            <h2 class="section-title">Perfect For</h2>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">💻</div>
+                    <h3>Developers</h3>
+                    <p>Track coding time vs meetings. Prove productivity to managers. Optimize your workflow.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💼</div>
+                    <h3>Freelancers</h3>
+                    <p>Accurate client billing. Track multiple projects. Professional time reports.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🏠</div>
+                    <h3>Remote Workers</h3>
+                    <p>Show what you worked on. Daily activity reports. Better time management.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📈</div>
+                    <h3>Managers</h3>
+                    <p>Understand team time allocation. Project time tracking. Productivity insights.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+        <div class="container">
+            <h2>Start Tracking Your Time Today</h2>
+            <p>Free forever. Install in 10 seconds. No account needed.</p>
+            <a href="https://chrome.google.com/webstore" class="cta-primary">
+                Install Clockwork - It's Free
+            </a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>
+                <a href="https://japps.ai/clockwork/privacy">Privacy Policy</a> | 
+                <a href="mailto:support@japps.ai">Support</a> | 
+                <a href="https://japps.ai">japps.ai</a>
+            </p>
+            <p style="margin-top: 20px; color: #64748b;">
+                © 2026 japps.ai. All rights reserved. Built with ❤️ for productivity.
+            </p>
+        </div>
+    </footer>
+</body>
+</html>
