@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Guisselle Martinez — Salesforce Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;500;600&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet" />
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0a0f1e;
+  --bg2:       #0d1426;
+  --bg3:       #111827;
+  --panel:     #141c2e;
+  --border:    #1e2d47;
+  --border2:   #243555;
+  --cyan:      #00e5ff;
+  --cyan-dim:  #00b8cc;
+  --cyan-pale: rgba(0,229,255,0.08);
+  --green:     #39ff8a;
+  --purple:    #b57bff;
+  --orange:    #ff9f43;
+  --red:       #ff5370;
+  --text:      #cdd6f4;
+  --text-mid:  #8892a4;
+  --text-dim:  #4a5568;
+  --white:     #e8eef9;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'Syne', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 9999;
+  pointer-events: none;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+}
+
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+  background: rgba(10,15,30,0.92);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 3rem; height: 58px;
+}
+.nav-logo { font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--cyan); letter-spacing: 0.05em; }
+.nav-logo span { color: var(--text-mid); }
+.nav-links { display: flex; gap: 0; list-style: none; }
+.nav-links a { color: var(--text-mid); text-decoration: none; font-family: 'Fira Code', monospace; font-size: 0.75rem; padding: 0 1.2rem; height: 58px; display: flex; align-items: center; border-right: 1px solid var(--border); transition: color 0.2s, background 0.2s; }
+.nav-links li:first-child a { border-left: 1px solid var(--border); }
+.nav-links a:hover { color: var(--cyan); background: var(--cyan-pale); }
+
+#hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 3rem; padding: 80px 3rem 3rem; position: relative; background: var(--bg); overflow: hidden; }
+.hero-grid-bg { position: absolute; inset: 0; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 60px 60px; opacity: 0.3; mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%); }
+.hero-glow { position: absolute; width: 600px; height: 600px; border-radius: 50%; background: radial-gradient(circle, rgba(0,229,255,0.06) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%,-50%); pointer-events: none; }
+.hero-content { max-width: 560px; position: relative; z-index: 1; }
+.hero-terminal-window { position: relative; z-index: 1; background: var(--panel); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; opacity: 0; animation: fadeIn 0.6s 1.2s forwards; box-shadow: 0 0 60px rgba(0,229,255,0.06), 0 20px 60px rgba(0,0,0,0.4); }
+.hero-terminal-window .code-bar { padding: 0.7rem 1rem; }
+.terminal-body { padding: 1.4rem 1.4rem 1.8rem; font-family: 'Fira Code', monospace; font-size: 0.78rem; line-height: 2; min-height: 320px; }
+.t-line { display: flex; align-items: baseline; gap: 0.5rem; }
+.t-prompt { color: var(--green); flex-shrink: 0; }
+.t-cmd { color: var(--text); }
+.t-out { color: var(--text-mid); padding-left: 1.1rem; }
+.t-key { color: var(--cyan); }
+.t-val { color: var(--green); }
+.t-num { color: var(--orange); }
+.t-bool { color: var(--purple); }
+.t-dim { color: var(--text-dim); }
+.t-blank { height: 0.5rem; }
+.cursor { display: inline-block; width: 8px; height: 1em; background: var(--cyan); vertical-align: middle; animation: blink 1s step-end infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+.hero-terminal { display: inline-flex; align-items: center; gap: 0.6rem; font-family: 'Fira Code', monospace; font-size: 0.78rem; color: var(--green); margin-bottom: 1.8rem; opacity: 0; animation: fadeIn 0.5s 0.2s forwards; }
+.hero-terminal::before { content: '▶'; font-size: 0.6rem; color: var(--green); }
+.hero-name { font-size: clamp(2.2rem, 5vw, 4rem); font-weight: 700; line-height: 1.1; margin-bottom: 1rem; letter-spacing: -0.01em; color: var(--white); opacity: 0; animation: fadeIn 0.5s 0.4s forwards; }
+.hero-name .cyan { color: var(--cyan); }
+.hero-name .dim  { color: var(--text-mid); font-weight: 400; }
+.hero-role { font-family: 'Fira Code', monospace; font-size: 0.95rem; color: var(--purple); margin-bottom: 1.5rem; opacity: 0; animation: fadeIn 0.5s 0.6s forwards; }
+.hero-role .comment { color: var(--text-dim); }
+.hero-bio { font-size: 1rem; color: var(--text-mid); max-width: 520px; line-height: 1.9; margin-bottom: 2.5rem; opacity: 0; animation: fadeIn 0.5s 0.8s forwards; }
+.hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; opacity: 0; animation: fadeIn 0.5s 1s forwards; }
+.btn-cyan { background: transparent; color: var(--cyan); border: 1px solid var(--cyan); padding: 0.65rem 1.6rem; font-family: 'Fira Code', monospace; font-size: 0.8rem; text-decoration: none; letter-spacing: 0.05em; transition: background 0.2s, color 0.2s; }
+.btn-cyan:hover { background: var(--cyan); color: var(--bg); }
+.btn-ghost { background: transparent; color: var(--text-mid); border: 1px solid var(--border2); padding: 0.65rem 1.6rem; font-family: 'Fira Code', monospace; font-size: 0.8rem; text-decoration: none; letter-spacing: 0.05em; transition: border-color 0.2s, color 0.2s; }
+.btn-ghost:hover { border-color: var(--text-mid); color: var(--white); }
+
+section { padding: 6rem 3rem; }
+.container { max-width: 960px; margin: 0 auto; }
+.sec-eyebrow { font-family: 'Fira Code', monospace; font-size: 0.72rem; color: var(--cyan); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 0.5rem; }
+.sec-eyebrow::before { content: '// '; color: var(--text-dim); }
+.sec-title { font-size: clamp(1.4rem, 2.2vw, 1.9rem); font-weight: 700; color: var(--white); margin-bottom: 3rem; letter-spacing: -0.01em; line-height: 1.15; }
+.sec-title .accent { color: var(--cyan); }
+
+#about { background: var(--bg2); }
+.about-layout { display: grid; grid-template-columns: 1fr 380px; gap: 3.5rem; align-items: start; }
+.about-text p { color: var(--text-mid); font-size: 0.97rem; line-height: 1.9; margin-bottom: 1.1rem; }
+
+.code-block { background: var(--panel); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+.code-bar { display: flex; align-items: center; gap: 0.5rem; padding: 0.6rem 1rem; background: var(--bg3); border-bottom: 1px solid var(--border); }
+.dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot-r { background: #ff5f57; } .dot-y { background: #febc2e; } .dot-g { background: #28c840; }
+.code-filename { margin-left: auto; font-family: 'Fira Code', monospace; font-size: 0.7rem; color: var(--text-dim); }
+.code-body { padding: 1.2rem 1.5rem; font-family: 'Fira Code', monospace; font-size: 0.78rem; line-height: 2; }
+.c-purple { color: var(--purple); } .c-cyan { color: var(--cyan); } .c-green { color: var(--green); }
+.c-orange { color: var(--orange); } .c-dim { color: var(--text-dim); } .c-text { color: var(--text); } .c-red { color: var(--red); }
+
+#skills { background: var(--bg); }
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1px; background: var(--border); border: 1px solid var(--border); }
+.skill-cell { background: var(--bg2); padding: 1.5rem; transition: background 0.2s; }
+.skill-cell:hover { background: var(--panel); }
+.skill-cell-title { font-family: 'Fira Code', monospace; font-size: 0.7rem; color: var(--cyan); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+.skill-cell-title::before { content: ''; width: 6px; height: 6px; background: var(--cyan); display: inline-block; }
+.tag-list { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.tag { font-family: 'Fira Code', monospace; font-size: 0.72rem; padding: 0.2rem 0.55rem; background: var(--bg3); color: var(--text-mid); border: 1px solid var(--border2); transition: color 0.15s, border-color 0.15s; }
+.tag:hover { color: var(--cyan); border-color: var(--cyan); }
+
+#experience { background: var(--bg2); }
+.timeline { display: flex; flex-direction: column; }
+.job { display: grid; grid-template-columns: 180px 1fr; border-left: 1px solid var(--border); opacity: 0; transform: translateY(16px); transition: opacity 0.4s, transform 0.4s; }
+.job.visible { opacity: 1; transform: translateY(0); }
+.job-left { padding: 2rem 1.5rem 2rem 0; border-right: 1px solid var(--border); position: relative; }
+.job-left::before { content: ''; position: absolute; right: -5px; top: 2.3rem; width: 8px; height: 8px; background: var(--cyan); border: 2px solid var(--bg2); }
+.job-dates { font-family: 'Fira Code', monospace; font-size: 0.7rem; color: var(--cyan); line-height: 1.6; display: block; }
+.job-right { padding: 2rem 0 2rem 2rem; border-bottom: 1px solid var(--border); }
+.job:last-child .job-right { border-bottom: none; }
+.job-title { font-size: 1rem; font-weight: 700; color: var(--white); margin-bottom: 0.2rem; }
+.job-company { font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--purple); margin-bottom: 1rem; }
+.job-bullets { list-style: none; }
+.job-bullets li { font-size: 0.88rem; color: var(--text-mid); line-height: 1.75; margin-bottom: 0.3rem; padding-left: 1.1rem; position: relative; }
+.job-bullets li::before { content: '>'; position: absolute; left: 0; color: var(--cyan); font-family: 'Fira Code', monospace; font-size: 0.7rem; top: 0.05em; }
+
+#projects { background: var(--bg); }
+.projects-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 1rem; }
+.project-card { background: var(--panel); border: 1px solid var(--border); overflow: hidden; transition: border-color 0.2s, transform 0.2s; }
+.project-card:hover { border-color: var(--cyan); transform: translateY(-2px); }
+.card-header { padding: 0.6rem 1rem; background: var(--bg3); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 0.5rem; }
+.card-filename { font-family: 'Fira Code', monospace; font-size: 0.7rem; color: var(--text-mid); margin-left: 0.3rem; }
+.card-body { padding: 1.4rem 1.2rem; }
+.project-title { font-size: 0.95rem; font-weight: 700; color: var(--white); margin-bottom: 0.5rem; }
+.project-desc { font-size: 0.83rem; color: var(--text-mid); line-height: 1.75; margin-bottom: 1rem; }
+.ai-badge { display: inline-flex; align-items: center; gap: 0.3rem; font-family: 'Fira Code', monospace; font-size: 0.68rem; color: var(--green); border: 1px solid rgba(57,255,138,0.3); padding: 0.18rem 0.55rem; }
+.ai-badge::before { content: '⬡'; font-size: 0.6rem; }
+
+#contact { background: var(--bg2); border-top: 1px solid var(--border); }
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+.contact-left .sec-title { margin-bottom: 1rem; }
+.contact-sub { font-size: 0.9rem; color: var(--text-mid); line-height: 1.85; margin-bottom: 2rem; }
+.contact-links { display: flex; flex-direction: column; gap: 0.6rem; }
+.contact-link { display: flex; align-items: center; gap: 0.8rem; font-family: 'Fira Code', monospace; font-size: 0.78rem; color: var(--text-mid); text-decoration: none; transition: color 0.2s; }
+.contact-link:hover { color: var(--cyan); }
+.link-icon { width: 28px; height: 28px; border: 1px solid var(--border2); display: flex; align-items: center; justify-content: center; font-size: 0.7rem; color: var(--cyan); transition: background 0.2s; flex-shrink: 0; }
+.contact-link:hover .link-icon { background: var(--cyan-pale); }
+.footer-bar { margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+.footer-copy { font-family: 'Fira Code', monospace; font-size: 0.7rem; color: var(--text-dim); }
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+
+@media (max-width: 768px) {
+  nav { padding: 0 1.2rem; }
+  .nav-links a { padding: 0 0.7rem; font-size: 0.65rem; }
+  section { padding: 4rem 1.2rem; }
+  #hero { grid-template-columns: 1fr; padding: 80px 1.2rem 3rem; }
+  .hero-terminal-window { display: none; }
+  .about-layout, .contact-grid { grid-template-columns: 1fr; }
+  .job { grid-template-columns: 1fr; }
+  .job-left { padding: 1rem 0 0; border-right: none; border-bottom: 1px solid var(--border); }
+  .job-right { padding: 1rem 0 2rem; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo"><span>~/</span>guisselle-martinez</div>
+  <ul class="nav-links">
+    <li><a href="#about">about.ts</a></li>
+    <li><a href="#skills">skills.json</a></li>
+    <li><a href="#experience">experience.md</a></li>
+    <li><a href="#projects">projects/</a></li>
+    <li><a href="#contact">contact.sh</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <p class="hero-terminal">const developer = new SalesforceDev()</p>
+    <h1 class="hero-name">Guisselle<br /><span class="cyan">Martinez</span><span class="dim">;</span></h1>
+    <p class="hero-role"><span class="comment">// </span>Salesforce OmniStudio &amp; Integration Developer</p>
+    <p class="hero-bio">8+ years building scalable CRM solutions in healthcare, non-profit, and real estate. Certified Salesforce Admin, Platform Developer &amp; OmniStudio Specialist — and an independent builder of AI-powered developer tools using the Claude API.</p>
+    <div class="hero-cta">
+      <a href="#contact" class="btn-cyan">./contact_me.sh</a>
+      <a href="https://www.linkedin.com/in/guisselle-martinez/" target="_blank" class="btn-ghost">LinkedIn ↗</a>
+      <a href="https://www.salesforce.com/trailblazer/guisselle" target="_blank" class="btn-ghost">Trailblazer ↗</a>
+    </div>
+  </div>
+
+    <div class="hero-terminal-window">
+      <div class="code-bar">
+        <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
+        <span class="code-filename">guisselle@dev ~ terminal</span>
+      </div>
+      <div class="terminal-body" id="terminal-body"></div>
+    </div>
+</section>
+
+<section id="about">
+  <div class="container">
+    <p class="sec-eyebrow">about</p>
+    <h2 class="sec-title">Who I <span class="accent">am</span></h2>
+    <div class="about-layout">
+      <div class="about-text">
+        <p>My journey in software started with structured Java programming and has evolved into deep Salesforce specialization — OmniStudio, MuleSoft integrations, and custom LWCs that solve real business problems.</p>
+        <p>I bring a rare combination of technical breadth and delivery focus. I can design a MuleSoft integration, build a custom Lightning Web Component, architect an OmniStudio flow, and ship a working Chrome extension — often in the same sprint.</p>
+        <p>On the side, I build AI-powered tools using the Claude API: a productivity tracker extension, a macOS text editor, debugging utilities for Salesforce developers, and more.</p>
+        <p>Based in Carmel, IN — open to remote and hybrid roles.</p>
+      </div>
+      <div class="code-block">
+        <div class="code-bar">
+          <span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span>
+          <span class="code-filename">profile.ts</span>
+        </div>
+        <div class="code-body">
+          <div><span class="c-purple">const</span> <span class="c-cyan">me</span> = {</div>
+          <div>&nbsp;&nbsp;name: <span class="c-green">"Guisselle Martinez"</span>,</div>
+          <div>&nbsp;&nbsp;location: <span class="c-green">"Carmel, IN"</span>,</div>
+          <div>&nbsp;&nbsp;role: <span class="c-green">"Salesforce Developer"</span>,</div>
+          <div>&nbsp;&nbsp;experience: <span class="c-orange">8</span>, <span class="c-dim">// years</span></div>
+          <div>&nbsp;&nbsp;certs: [</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-green">"SF Admin"</span>,</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-green">"SF Developer"</span>,</div>
+          <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="c-green">"OmniStudio"</span>,</div>
+          <div>&nbsp;&nbsp;],</div>
+          <div>&nbsp;&nbsp;aiTools: <span class="c-purple">true</span>,</div>
+          <div>&nbsp;&nbsp;openToWork: <span class="c-purple">true</span>,</div>
+          <div>}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="container">
+    <p class="sec-eyebrow">skills</p>
+    <h2 class="sec-title">Tech <span class="accent">Stack</span></h2>
+    <div class="skills-grid">
+      <div class="skill-cell">
+        <div class="skill-cell-title">Salesforce</div>
+        <div class="tag-list">
+          <span class="tag">OmniStudio</span><span class="tag">LWC</span><span class="tag">Apex</span>
+          <span class="tag">FlexCards</span><span class="tag">DataRaptors</span><span class="tag">Experience Cloud</span>
+          <span class="tag">Health Cloud</span><span class="tag">SOQL/SOSL</span><span class="tag">Flows</span>
+        </div>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-cell-title">Languages</div>
+        <div class="tag-list">
+          <span class="tag">Java</span><span class="tag">JavaScript</span><span class="tag">Apex</span>
+          <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">SQL</span>
+          <span class="tag">JSON</span><span class="tag">RAML</span>
+        </div>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-cell-title">Integration &amp; APIs</div>
+        <div class="tag-list">
+          <span class="tag">MuleSoft</span><span class="tag">REST</span><span class="tag">SOAP</span>
+          <span class="tag">Postman</span><span class="tag">Anypoint Studio</span>
+        </div>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-cell-title">DevOps &amp; Tools</div>
+        <div class="tag-list">
+          <span class="tag">Copado</span><span class="tag">Git</span><span class="tag">Jira</span>
+          <span class="tag">Lucidchart</span><span class="tag">VS Code</span><span class="tag">IntelliJ</span>
+          <span class="tag">AWS</span><span class="tag">Gerrit</span>
+        </div>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-cell-title">AI &amp; Emerging Tech</div>
+        <div class="tag-list">
+          <span class="tag">Claude API</span><span class="tag">AI App Dev</span>
+          <span class="tag">Chrome Extensions</span><span class="tag">macOS Apps</span>
+        </div>
+      </div>
+      <div class="skill-cell">
+        <div class="skill-cell-title">CRM / ERP</div>
+        <div class="tag-list">
+          <span class="tag">Salesforce CRM</span><span class="tag">MS Dynamics CRM</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="experience">
+  <div class="container">
+    <p class="sec-eyebrow">experience</p>
+    <h2 class="sec-title">Where I've <span class="accent">worked</span></h2>
+    <div class="timeline">
+      <div class="job">
+        <div class="job-left"><span class="job-dates">Jul 2024<br />Present</span></div>
+        <div class="job-right">
+          <div class="job-title">Salesforce OmniStudio Developer</div>
+          <div class="job-company">Yudrio LLC &nbsp;·&nbsp; Remote</div>
+          <ul class="job-bullets">
+            <li>Built OmniStudio components — OmniScripts, Integration Procedures, DataMappers, and FlexCards — enhancing UX and system functionality.</li>
+            <li>Developed custom Lightning Web Components to extend Salesforce UI with tailored user experiences.</li>
+            <li>Used Copado to manage deployments and keep Dev, QA, UAT, and Production environments aligned.</li>
+            <li>Created architecture diagrams and process flows in Lucidchart for stakeholder communication.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="job">
+        <div class="job-left"><span class="job-dates">Dec 2022<br />Apr 2023</span></div>
+        <div class="job-right">
+          <div class="job-title">Salesforce / MuleSoft Developer</div>
+          <div class="job-company">Radian Hub &nbsp;·&nbsp; Remote (Contract)</div>
+          <ul class="job-bullets">
+            <li>Rebuilt a Salesforce Experience portal for a non-profit using declarative tools, LWC, and Data Loader.</li>
+            <li>Developed a MuleSoft application integrating three external APIs with internal Salesforce endpoints.</li>
+            <li>Maintained dashboards, reports, and complex SOQL/SOSL queries for data visibility.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="job">
+        <div class="job-left"><span class="job-dates">Mar 2022<br />Aug 2022</span></div>
+        <div class="job-right">
+          <div class="job-title">Salesforce OmniStudio / Vlocity Developer</div>
+          <div class="job-company">Revolent Group &nbsp;·&nbsp; Remote (Contract)</div>
+          <ul class="job-bullets">
+            <li>Delivered FlexCards, OmniScripts, Integration Procedures, and DataRaptors for multiple client engagements.</li>
+            <li>Built guided multi-step form interfaces using OmniScript to improve end-user experience.</li>
+            <li>Trained on Salesforce Health Cloud; managed roles, profiles, sharing rules, and workflows.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="job">
+        <div class="job-left"><span class="job-dates">Sep 2019<br />Jan 2022</span></div>
+        <div class="job-right">
+          <div class="job-title">Java Software Developer</div>
+          <div class="job-company">Orchard Software &nbsp;·&nbsp; Carmel, IN (Healthcare)</div>
+          <ul class="job-bullets">
+            <li>Built healthcare solutions using Java 8, SQL, REST, SOAP, and JavaScript in an Agile team of 6.</li>
+            <li>Applied core OOP principles; conducted peer code reviews and authored internal documentation.</li>
+            <li>Used Git and Gerrit for version control and collaborative code review.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="job">
+        <div class="job-left"><span class="job-dates">Aug 2016<br />Jul 2017</span></div>
+        <div class="job-right">
+          <div class="job-title">MS Dynamics CRM Developer</div>
+          <div class="job-company">American Specialty Health &nbsp;·&nbsp; Carmel, IN</div>
+          <ul class="job-bullets">
+            <li>Customized Dynamics CRM entities, workflows, plugins, and reports in a Scrum/Agile environment.</li>
+            <li>Collaborated with Product Owner and end users to gather requirements and ensure timely delivery.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="container">
+    <p class="sec-eyebrow">projects</p>
+    <h2 class="sec-title">What I've <span class="accent">built</span></h2>
+    <div class="projects-grid">
+      <div class="project-card">
+        <div class="card-header"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span><span class="card-filename">productivity-tracker.js</span></div>
+        <div class="card-body">
+          <div class="project-title">Chrome Extension — Productivity Tracker</div>
+          <p class="project-desc">Tracks time spent on every website and desktop application, giving developers clear productivity insights from their browser.</p>
+          <span class="ai-badge">Built with Claude API</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="card-header"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span><span class="card-filename">editor.swift</span></div>
+        <div class="card-body">
+          <div class="project-title">macOS Text Editor</div>
+          <p class="project-desc">A full-featured macOS text editor — a Notepad++ equivalent for Mac — filling a gap for Mac-based developers needing a lightweight code editor.</p>
+          <span class="ai-badge">Built with Claude API</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="card-header"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span><span class="card-filename">index.html</span></div>
+        <div class="card-body">
+          <div class="project-title">Full Company Website</div>
+          <p class="project-desc">Designed and developed a complete business website from scratch — UI design, content architecture, and deployment end-to-end.</p>
+          <span class="ai-badge">Built with Claude API</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="card-header"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span><span class="card-filename">pdf-generator.py</span></div>
+        <div class="card-body">
+          <div class="project-title">Dynamic PDF Form Generator</div>
+          <p class="project-desc">Dynamically creates and populates PDF forms, eliminating manual document preparation and streamlining business workflows.</p>
+          <span class="ai-badge">Built with Claude API</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="card-header"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span><span class="card-filename">OmniDebugger.lwc</span></div>
+        <div class="card-body">
+          <div class="project-title">OmniStudio Debugging LWCs</div>
+          <p class="project-desc">Custom Lightning Web Components that simplify debugging of OmniStudio components — saving Salesforce developers hours of troubleshooting time.</p>
+          <span class="ai-badge">Built with Claude API</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="contact-left">
+        <p class="sec-eyebrow">contact</p>
+        <h2 class="sec-title">Let's <span class="accent">connect</span></h2>
+        <p class="contact-sub">Open to new opportunities — remote or hybrid. Whether it's a Salesforce role, an integration challenge, or just a good tech conversation, feel free to reach out.</p>
+        <div class="contact-links">
+          <a href="mailto:guisselle@kodebus.com" class="contact-link"><span class="link-icon">@</span>guisselle@kodebus.com</a>
+          <a href="tel:3172080221" class="contact-link"><span class="link-icon">#</span>317-208-0221</a>
+          <a href="https://www.linkedin.com/in/guisselle-martinez/" target="_blank" class="contact-link"><span class="link-icon">in</span>linkedin.com/in/guisselle-martinez</a>
+          <a href="https://www.salesforce.com/trailblazer/guisselle" target="_blank" class="contact-link"><span class="link-icon">sf</span>trailblazer/gmartinez200</a>
+        </div>
+      </div>
+      <div class="contact-right">
+        <div class="code-block">
+          <div class="code-bar"><span class="dot dot-r"></span><span class="dot dot-y"></span><span class="dot dot-g"></span><span class="code-filename">contact.sh</span></div>
+          <div class="code-body">
+            <div><span class="c-dim">#!/bin/bash</span></div>
+            <div>&nbsp;</div>
+            <div><span class="c-dim"># reach out to Guisselle</span></div>
+            <div><span class="c-purple">function</span> <span class="c-cyan">hire()</span> {</div>
+            <div>&nbsp;&nbsp;<span class="c-text">email</span>=<span class="c-green">"guisselle@kodebus.com"</span></div>
+            <div>&nbsp;&nbsp;<span class="c-text">subject</span>=<span class="c-green">"Let's work together"</span></div>
+            <div>&nbsp;&nbsp;<span class="c-cyan">send_message</span> \</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;--to <span class="c-orange">$email</span> \</div>
+            <div>&nbsp;&nbsp;&nbsp;&nbsp;--subject <span class="c-orange">$subject</span></div>
+            <div>}</div>
+            <div>&nbsp;</div>
+            <div><span class="c-cyan">hire</span> <span class="c-dim"># run me!</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bar">
+      <span class="footer-copy">// © 2025 Guisselle Martinez &nbsp;·&nbsp; Carmel, IN</span>
+      <span class="footer-copy">built with Claude API ⬡</span>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Terminal typing animation
+  const lines = [
+    { type: 'cmd',   text: 'whoami' },
+    { type: 'out',   parts: [{ t: 'val', v: 'guisselle-martinez' }] },
+    { type: 'blank' },
+    { type: 'cmd',   text: 'cat skills.json' },
+    { type: 'out',   parts: [{ t: 'dim', v: '{' }] },
+    { type: 'out',   parts: [{ t: 'key', v: '  "platform":' }, { t: 'val', v: ' "Salesforce",' }] },
+    { type: 'out',   parts: [{ t: 'key', v: '  "specialty":' }, { t: 'val', v: ' "OmniStudio",' }] },
+    { type: 'out',   parts: [{ t: 'key', v: '  "integration":' }, { t: 'val', v: ' "MuleSoft",' }] },
+    { type: 'out',   parts: [{ t: 'key', v: '  "frontend":' }, { t: 'val', v: ' "LWC",' }] },
+    { type: 'out',   parts: [{ t: 'key', v: '  "ai":' }, { t: 'val', v: ' "Claude API",' }] },
+    { type: 'out',   parts: [{ t: 'key', v: '  "years":' }, { t: 'num', v: ' 8,' }] },
+    { type: 'out',   parts: [{ t: 'key', v: '  "openToWork":' }, { t: 'bool', v: ' true' }] },
+    { type: 'out',   parts: [{ t: 'dim', v: '}' }] },
+    { type: 'blank' },
+    { type: 'cmd',   text: 'git log --oneline -3' },
+    { type: 'out',   parts: [{ t: 'num', v: 'a3f1c2b ' }, { t: 'text', v: 'feat: new OmniScript flow' }] },
+    { type: 'out',   parts: [{ t: 'num', v: 'b7d09e1 ' }, { t: 'text', v: 'fix: LWC debug component' }] },
+    { type: 'out',   parts: [{ t: 'num', v: 'c2a44f0 ' }, { t: 'text', v: 'chore: Copado deployment' }] },
+    { type: 'blank' },
+    { type: 'prompt' },
+  ];
+
+  const tb = document.getElementById('terminal-body');
+  let li = 0, ci = 0;
+  const DELAY_LINE = 120, DELAY_CHAR = 38, DELAY_OUT = 60;
+
+  function renderParts(parts) {
+    return parts.map(p => {
+      const cls = p.t === 'val' ? 't-val' : p.t === 'key' ? 't-key' : p.t === 'num' ? 't-num' : p.t === 'bool' ? 't-bool' : p.t === 'dim' ? 't-dim' : 't-cmd';
+      return `<span class="${cls}">${p.v}</span>`;
+    }).join('');
+  }
+
+  function nextLine() {
+    if (li >= lines.length) return;
+    const line = lines[li++];
+    const div = document.createElement('div');
+
+    if (line.type === 'blank') {
+      div.className = 't-blank';
+      tb.appendChild(div);
+      setTimeout(nextLine, DELAY_LINE * 0.5);
+    } else if (line.type === 'out') {
+      div.className = 't-out';
+      div.innerHTML = renderParts(line.parts);
+      tb.appendChild(div);
+      setTimeout(nextLine, DELAY_OUT);
+    } else if (line.type === 'prompt') {
+      div.className = 't-line';
+      div.innerHTML = '<span class="t-prompt">❯</span><span class="cursor"></span>';
+      tb.appendChild(div);
+    } else if (line.type === 'cmd') {
+      div.className = 't-line';
+      div.innerHTML = '<span class="t-prompt">❯</span><span class="t-cmd" id="typing-' + li + '"></span>';
+      tb.appendChild(div);
+      const span = div.querySelector('.t-cmd');
+      let c = 0;
+      function typeChar() {
+        if (c < line.text.length) {
+          span.textContent += line.text[c++];
+          setTimeout(typeChar, DELAY_CHAR);
+        } else {
+          setTimeout(nextLine, DELAY_LINE);
+        }
+      }
+      setTimeout(typeChar, DELAY_CHAR);
+      return;
+    }
+    if (line.type !== 'prompt') setTimeout(nextLine, DELAY_OUT);
+  }
+
+  setTimeout(nextLine, 1600);
+
+  const jobs = document.querySelectorAll('.job');
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 100);
+    });
+  }, { threshold: 0.1 });
+  jobs.forEach(j => obs.observe(j));
+</script>
+</body>
+</html>
