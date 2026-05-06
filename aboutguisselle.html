@@ -27,6 +27,7 @@
   --text-mid:  #8892a4;
   --text-dim:  #4a5568;
   --white:     #e8eef9;
+  --gold:      #c9a84c;
 }
 
 html { scroll-behavior: smooth; }
@@ -56,10 +57,13 @@ nav {
 }
 .nav-logo { font-family: 'Fira Code', monospace; font-size: 0.85rem; color: var(--cyan); letter-spacing: 0.05em; }
 .nav-logo span { color: var(--text-mid); }
-.nav-links { display: flex; gap: 0; list-style: none; }
+.nav-links { display: flex; gap: 0; list-style: none; align-items: center; }
 .nav-links a { color: var(--text-mid); text-decoration: none; font-family: 'Fira Code', monospace; font-size: 0.75rem; padding: 0 1.2rem; height: 58px; display: flex; align-items: center; border-right: 1px solid var(--border); transition: color 0.2s, background 0.2s; }
 .nav-links li:first-child a { border-left: 1px solid var(--border); }
 .nav-links a:hover { color: var(--cyan); background: var(--cyan-pale); }
+.nav-back { display: flex; align-items: center; gap: 0.5rem; font-family: 'Fira Code', monospace; font-size: 0.75rem; color: var(--gold); text-decoration: none; border: 1px solid rgba(201,168,76,0.35); padding: 0.4rem 1rem; margin-left: 1.2rem; transition: background 0.2s, color 0.2s; white-space: nowrap; }
+.nav-back:hover { background: rgba(201,168,76,0.1); color: #e8c96e; }
+.nav-back::before { content: '←'; font-size: 0.8rem; }
 
 #hero { min-height: 100vh; display: grid; grid-template-columns: 1fr 1fr; align-items: center; gap: 3rem; padding: 80px 3rem 3rem; position: relative; background: var(--bg); overflow: hidden; }
 .hero-grid-bg { position: absolute; inset: 0; background-image: linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px); background-size: 60px 60px; opacity: 0.3; mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%); }
@@ -163,12 +167,16 @@ section { padding: 6rem 3rem; }
 .contact-link:hover .link-icon { background: var(--cyan-pale); }
 .footer-bar { margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
 .footer-copy { font-family: 'Fira Code', monospace; font-size: 0.7rem; color: var(--text-dim); }
+.footer-back { display: inline-flex; align-items: center; gap: 0.5rem; font-family: 'Fira Code', monospace; font-size: 0.72rem; color: var(--gold); text-decoration: none; border: 1px solid rgba(201,168,76,0.3); padding: 0.4rem 1rem; transition: background 0.2s; }
+.footer-back:hover { background: rgba(201,168,76,0.08); color: #e8c96e; }
+.footer-back::before { content: '←'; }
 
 @keyframes fadeIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
 
 @media (max-width: 768px) {
   nav { padding: 0 1.2rem; }
   .nav-links a { padding: 0 0.7rem; font-size: 0.65rem; }
+  .nav-back { display: none; }
   section { padding: 4rem 1.2rem; }
   #hero { grid-template-columns: 1fr; padding: 80px 1.2rem 3rem; }
   .hero-terminal-window { display: none; }
@@ -190,6 +198,7 @@ section { padding: 6rem 3rem; }
     <li><a href="#projects">projects/</a></li>
     <li><a href="#contact">contact.sh</a></li>
   </ul>
+  <a href="https://japps.ai" class="nav-back">japps.ai</a>
 </nav>
 
 <section id="hero">
@@ -459,13 +468,13 @@ section { padding: 6rem 3rem; }
     </div>
     <div class="footer-bar">
       <span class="footer-copy">// © 2025 Guisselle Martinez &nbsp;·&nbsp; Carmel, IN</span>
+      <a href="https://japps.ai" class="footer-back">&nbsp;japps.ai</a>
       <span class="footer-copy">built with Claude API ⬡</span>
     </div>
   </div>
 </section>
 
 <script>
-  // Terminal typing animation
   const lines = [
     { type: 'cmd',   text: 'whoami' },
     { type: 'out',   parts: [{ t: 'val', v: 'guisselle-martinez' }] },
@@ -490,7 +499,7 @@ section { padding: 6rem 3rem; }
   ];
 
   const tb = document.getElementById('terminal-body');
-  let li = 0, ci = 0;
+  let li = 0;
   const DELAY_LINE = 120, DELAY_CHAR = 38, DELAY_OUT = 60;
 
   function renderParts(parts) {
@@ -504,7 +513,6 @@ section { padding: 6rem 3rem; }
     if (li >= lines.length) return;
     const line = lines[li++];
     const div = document.createElement('div');
-
     if (line.type === 'blank') {
       div.className = 't-blank';
       tb.appendChild(div);
@@ -525,12 +533,8 @@ section { padding: 6rem 3rem; }
       const span = div.querySelector('.t-cmd');
       let c = 0;
       function typeChar() {
-        if (c < line.text.length) {
-          span.textContent += line.text[c++];
-          setTimeout(typeChar, DELAY_CHAR);
-        } else {
-          setTimeout(nextLine, DELAY_LINE);
-        }
+        if (c < line.text.length) { span.textContent += line.text[c++]; setTimeout(typeChar, DELAY_CHAR); }
+        else { setTimeout(nextLine, DELAY_LINE); }
       }
       setTimeout(typeChar, DELAY_CHAR);
       return;
