@@ -133,19 +133,13 @@
   .about{background:var(--paper);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
   .about-grid{display:grid;grid-template-columns:0.85fr 1.15fr;gap:72px;align-items:start;}
   @media(max-width:880px){.about-grid{grid-template-columns:1fr;gap:36px;}}
-  .about-portrait{
-    position:relative;
-    width:100%;
-    max-width:360px;
-  }
-  .about-portrait img{
-    width:100%;
-    height:auto;
-    display:block;
-    border-radius:2px;
+  .about-mark{
+    font-family:'Fraunces',serif;font-style:italic;
+    font-size:clamp(120px,18vw,220px);line-height:0.7;
+    color:var(--terracotta);opacity:0.92;
   }
   .about-name{
-    margin-top:16px;font-size:15px;
+    margin-top:8px;font-size:15px;
     font-family:'Space Mono',monospace;letter-spacing:0.1em;
     text-transform:uppercase;color:var(--ink-soft);
   }
@@ -299,9 +293,7 @@
 <section class="about section-pad" id="about">
   <div class="wrap about-grid">
     <div class="reveal">
-      <div class="about-portrait">
-        <img src="images/karla_portrait.jpg" alt="Retrato de la artista Karla Martinez">
-      </div>
+      <div class="about-mark">K</div>
       <div class="about-name">— Karla Martinez</div>
     </div>
     <div class="reveal">
@@ -328,27 +320,6 @@
     </div>
 
     <div class="piece-list">
-
-      <article class="piece reveal">
-        <div class="hang-line"><div class="hang-hook" style="left:50%;"></div></div>
-        <div class="piece-grid">
-          <div class="piece-figure">
-            <img src="images/iglesia_del_lago.jpg" alt="Pintura al óleo de una iglesia junto a un lago, rodeada de árboles, por Karla Martinez">
-          </div>
-          <div class="piece-info">
-            <span class="piece-number">2003 · Exhibida en 2019</span>
-            <h3>Iglesia del lago</h3>
-            <span class="es">Church by the Lake</span>
-            <div class="piece-meta">
-              <span>Técnica — Óleo sobre lienzo</span>
-              <span>Firmado — Karla, 2003</span>
-              <span>Exhibida — Cumbre Mundial de las Artes, 2019</span>
-            </div>
-            <p class="desc">Una iglesia de piedra se asoma entre el follaje bajo un cielo luminoso — una de las obras más queridas de Karla, presentada en la Cumbre Mundial de las Artes por la Paz y la Vida.</p>
-            <a class="piece-cta" href="#contact">Consultar sobre esta obra →</a>
-          </div>
-        </div>
-      </article>
 
       <article class="piece reveal">
         <div class="hang-line"><div class="hang-hook" style="left:50%;"></div></div>
@@ -607,74 +578,5 @@
   });
 </script>
 
-<!-- Supabase dynamic content (progressive enhancement) -->
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="config.js"></script>
-<script>
-(async function(){
-  if(typeof SUPABASE_URL==='undefined' || SUPABASE_URL.includes('YOUR-PROJECT')) return; // not configured yet
-  let sb;
-  try{ sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY); }catch(e){ return; }
-
-  // ---- PAINTINGS ----
-  try{
-    const { data: paintings } = await sb.from('paintings').select('*').order('year',{ascending:false});
-    if(paintings && paintings.length){
-      const list = document.querySelector('.piece-list');
-      list.innerHTML = paintings.map(p=>`
-        <article class="piece reveal in">
-          <div class="hang-line"><div class="hang-hook" style="left:50%;"></div></div>
-          <div class="piece-grid">
-            <div class="piece-figure">
-              <img src="${p.image_url}" alt="${escapeAttr(p.title)}">
-            </div>
-            <div class="piece-info">
-              <span class="piece-number">${escapeHtml([p.month,p.year].filter(Boolean).join(' '))}</span>
-              <h3>${escapeHtml(p.title)}</h3>
-              ${p.size?`<span class="es">${escapeHtml(p.size)}</span>`:''}
-              <p class="desc">${escapeHtml(p.description)}</p>
-              <a class="piece-cta" href="#contact">Consultar sobre esta obra →</a>
-            </div>
-          </div>
-        </article>`).join('');
-      bindLightbox();
-    }
-  }catch(e){ /* keep static fallback */ }
-
-  // ---- SITE CONTENT (bio, portrait, contact) ----
-  try{
-    const { data: content } = await sb.from('site_content').select('*');
-    if(content && content.length){
-      const map={}; content.forEach(r=>map[r.key]=r.value);
-      const bios = document.querySelectorAll('.about p');
-      if(map.bio_1 && bios[0]) bios[0].textContent = map.bio_1;
-      if(map.bio_2 && bios[1]) bios[1].textContent = map.bio_2;
-      if(map.bio_3 && bios[2]) bios[2].textContent = map.bio_3;
-      const portrait = document.querySelector('.about-portrait img');
-      if(map.portrait_url && portrait) portrait.src = map.portrait_url;
-      // contact details
-      const details = document.querySelectorAll('.contact-detail span');
-      if(map.contact_location && details[0]) details[0].textContent = map.contact_location;
-      if(map.contact_shipping && details[1]) details[1].textContent = map.contact_shipping;
-      if(map.contact_email){
-        const emailLink = document.querySelector('.contact-detail a[href^="mailto:"]');
-        if(emailLink){ emailLink.href='mailto:'+map.contact_email; emailLink.textContent=map.contact_email; }
-      }
-    }
-  }catch(e){}
-
-  function bindLightbox(){
-    const lightbox = document.getElementById('lightbox');
-    const lightboxImg = document.getElementById('lightboxImg');
-    document.querySelectorAll('.piece-figure').forEach(fig=>{
-      fig.addEventListener('click',()=>{
-        const img = fig.querySelector('img');
-        lightboxImg.src = img.src; lightboxImg.alt = img.alt;
-        lightbox.classList.add('open');
-      });
-    });
-  }
-  function escapeHtml(s){ return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-  function escapeAttr(s){ return (s||'').replace(/"/g,'&quot;'); }
-})();
-</script>
+</body>
+</html>
