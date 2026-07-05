@@ -15,40 +15,14 @@
 </head>
 <body>
 <div id="root"></div>
-
 <script>
   window.storage = {
-    get: async function (key) {
-      try {
-        var v = localStorage.getItem(key);
-        return v !== null ? { key: key, value: v, shared: false } : null;
-      } catch (e) { return null; }
-    },
-    set: async function (key, value) {
-      try {
-        localStorage.setItem(key, value);
-        return { key: key, value: value, shared: false };
-      } catch (e) { return null; }
-    },
-    delete: async function (key) {
-      try {
-        localStorage.removeItem(key);
-        return { key: key, deleted: true, shared: false };
-      } catch (e) { return null; }
-    },
-    list: async function (prefix) {
-      try {
-        var keys = [];
-        for (var i = 0; i < localStorage.length; i++) {
-          var k = localStorage.key(i);
-          if (!prefix || (k && k.indexOf(prefix) === 0)) keys.push(k);
-        }
-        return { keys: keys };
-      } catch (e) { return null; }
-    }
+    get: async function (key) { try { var v = localStorage.getItem(key); return v !== null ? { key: key, value: v } : null; } catch (e) { return null; } },
+    set: async function (key, value) { try { localStorage.setItem(key, value); return { key: key, value: value }; } catch (e) { return null; } },
+    delete: async function (key) { try { localStorage.removeItem(key); return { key: key }; } catch (e) { return null; } },
+    list: async function (prefix) { try { var keys = []; for (var i = 0; i < localStorage.length; i++) { var k = localStorage.key(i); if (!prefix || (k && k.indexOf(prefix) === 0)) keys.push(k); } return { keys: keys }; } catch (e) { return null; } }
   };
 </script>
-
 <script>
 /**
  * @license React
@@ -1367,6 +1341,7 @@ const TOPIC_COLORS = [
   { fill: "#4FA6F0", soft: "#DDEDFB" },
   { fill: "#8C7BF0", soft: "#E7E2FC" },
   { fill: "#F06FA8", soft: "#FCE0EC" },
+  { fill: "#E05A2B", soft: "#FADDCE" },
 ];
 
 const PLAYER_TOKENS = [
@@ -1375,6 +1350,7 @@ const PLAYER_TOKENS = [
 ];
 
 const TOPICS = [
+
   {
     id: "basics", name: "Real Estate Basics", short: "ABC",
     lessons: [
@@ -1394,6 +1370,7 @@ const TOPICS = [
       { q: "What does the buyer get on closing day?", choices: ["The keys", "A trophy", "A new toy", "A library card"], a: 0, why: "After everything is signed, the buyer finally receives the keys to their new home." },
     ],
   },
+
   {
     id: "ownership", name: "Ownership", short: "OWN",
     lessons: [
@@ -1413,6 +1390,7 @@ const TOPICS = [
       { q: "In a cooperative, the resident owns:", choices: ["Fee simple title to their unit", "Shares in a corporation that owns the building", "A life estate", "An easement"], a: 1, why: "Co-op residents own shares in the corporation that owns the property." },
     ],
   },
+
   {
     id: "land-use", name: "Land Use", short: "LAND",
     lessons: [
@@ -1432,6 +1410,7 @@ const TOPICS = [
       { q: "A structure crossing onto a neighbor's land is:", choices: ["An easement", "An encroachment", "A variance", "A deed restriction"], a: 1, why: "Encroachment is a physical intrusion onto another's property." },
     ],
   },
+
   {
     id: "valuation", name: "Valuation", short: "VAL",
     lessons: [
@@ -1451,6 +1430,7 @@ const TOPICS = [
       { q: "Loss in value from an outdated layout inside the home is:", choices: ["Economic obsolescence", "Functional obsolescence", "Physical deterioration", "External depreciation"], a: 1, why: "Functional obsolescence is a flaw within the property itself." },
     ],
   },
+
   {
     id: "financing", name: "Financing", short: "FIN",
     lessons: [
@@ -1470,6 +1450,7 @@ const TOPICS = [
       { q: "PMI is generally required when the down payment is below:", choices: ["5%", "10%", "20%", "30%"], a: 2, why: "Conventional loans typically require PMI under 20% down." },
     ],
   },
+
   {
     id: "agency", name: "Agency", short: "AGY",
     lessons: [
@@ -1489,6 +1470,7 @@ const TOPICS = [
       { q: "An agent can't tell the seller the buyer would pay more, due to:", choices: ["Obedience", "Confidentiality", "Accounting", "Reasonable care"], a: 1, why: "Confidentiality protects the client's negotiating position." },
     ],
   },
+
   {
     id: "contracts", name: "Contracts", short: "K",
     lessons: [
@@ -1508,6 +1490,7 @@ const TOPICS = [
       { q: "A contract fully performed by both sides is:", choices: ["Executory", "Voidable", "Executed", "Bilateral"], a: 2, why: "Executed means fully carried out." },
     ],
   },
+
   {
     id: "practice", name: "Practice", short: "PRAC",
     lessons: [
@@ -1527,6 +1510,7 @@ const TOPICS = [
       { q: "Earnest money must be deposited into escrow:", choices: ["Within 30 days", "Within a short window, often 1-3 business days", "Within 6 months", "Before any offer"], a: 1, why: "Most states require prompt deposit, typically a few business days." },
     ],
   },
+
   {
     id: "math", name: "Math", short: "MATH",
     lessons: [
@@ -1544,6 +1528,39 @@ const TOPICS = [
       { q: "$3,600 annual taxes equal a monthly amount of:", choices: ["$200", "$300", "$360", "$30"], a: 1, why: "$3,600 / 12 = $300." },
       { q: "$24,000 NOI at an 8% cap rate values the property at:", choices: ["$192,000", "$300,000", "$1,920,000", "$30,000"], a: 1, why: "$24,000 / 0.08 = $300,000." },
       { q: "A $250,000 assessment taxed at 2.4% gives an annual bill of:", choices: ["$600", "$6,000", "$60,000", "$24,000"], a: 1, why: "$250,000 x 0.024 = $6,000." },
+    ],
+  },
+
+  {
+    id: "license-law", name: "License Law", short: "LAW",
+    lessons: [
+      { title: "Who Needs a License?", body: "Anyone who performs real estate services for compensation must be licensed. This includes in-kind pay (like use of a timeshare). Exceptions: owners selling their own property, attorneys, and helpers who receive absolutely no fee." },
+      { title: "Managing Broker Duties", body: "A managing broker is legally responsible for their own actions AND all brokers affiliated with them. To become one: you must have been licensed in active status under a managing broker for 24 months AND complete a managing broker course." },
+      { title: "Trust (Escrow) Accounts", body: "Only managing brokers are required to maintain trust accounts. Earnest money must be deposited within 2 banking days after acceptance of the offer. The licensing agency can inspect these records at any time — no prior notice required." },
+      { title: "Required Disclosures", body: "Licensees must: disclose their ownership interest IN WRITING when selling their own home; disclose their licensed status when buying property from a private owner; never intentionally misrepresent facts about psychologically affected properties when directly asked." },
+      { title: "License Law Violations", body: "A licensee can lose their license for: paying a commission to an unlicensed person, commingling escrow funds, guaranteeing a property will increase in value, or acting as a dual agent without the written consent of both parties — oral consent alone is not enough." },
+      { title: "Real Estate Recovery Fund", body: "A last resort for victims of dishonest Indiana licensees. You must first file a lawsuit, obtain a court judgment against the licensee, AND exhaust all other legal remedies before you can make a claim against the Fund." },
+      { title: "Recap — License Law", body: "License required for ANY compensation. Managing broker responsible for all associates. Earnest money due within 2 banking days of acceptance. Net listings are illegal in Indiana. Dual agency requires written — not just oral — consent. Recovery Fund requires a court judgment first." },
+    ],
+    questions: [
+      { q: "If a licensee is selling their own home, they must:", choices: ["List it with their managing broker", "Inform buyers IN WRITING of their ownership interest", "Only disclose if the home is listed with their broker", "Do nothing — it's their own property"], a: 1, why: "A licensee must always disclose their ownership interest in writing to buyers, even when selling their own home." },
+      { q: "Which person IS required to have a real estate license?", choices: ["A county assessor", "An executrix paid a fee to sell a decedent's home", "A neighbor helping sell a property for no fee at all", "A licensed auctioneer"], a: 1, why: "Receiving compensation — including any fee — for real estate services triggers the licensing requirement." },
+      { q: "A person is NOT required to be licensed if they:", choices: ["Only receive finder's fees from agents", "Help rent a friend's house for no fee", "Work as a telemarketer for a real estate office", "Show properties but never write contracts"], a: 1, why: "Helping a friend for free doesn't require a license. Any form of compensation, including finder's fees, does." },
+      { q: "A broker-associate may do which of the following?", choices: ["Maintain their own escrow account", "Advertise in their own name without the firm's name", "Maintain a separate office with their own signage", "Only operate under their managing broker's supervision"], a: 3, why: "Broker-associates must always operate under the supervision of their managing broker — they cannot act independently." },
+      { q: "To become a managing broker in Indiana, an applicant must:", choices: ["Be licensed under any managing broker for 24 months", "Be licensed under any managing broker for 12 months", "Be licensed 24 months and complete a managing broker course", "Be licensed in ACTIVE status under a managing broker for 24 months AND complete a managing broker course"], a: 3, why: "Active status (not just any status) for 24 months PLUS the managing broker course are both required." },
+      { q: "The licensing agency may inspect a managing broker's trust account records:", choices: ["Only with prior written notice", "Only during a formal investigation", "At any time", "Only with a court order"], a: 2, why: "The licensing agency can inspect trust account records at any time — no prior notice or court order is needed." },
+      { q: "An unlicensed staff member in a real estate office may:", choices: ["List property for the employing licensee", "Negotiate commissions with sellers", "Give the list price and directions to a listed property", "Hold open houses for the managing broker only"], a: 2, why: "Giving a list price and directions is an administrative task — it does not require a license." },
+      { q: "A licensee CAN lose their license for:", choices: ["Allowing funds in an interest-bearing escrow account", "Paying a commission to an unlicensed person", "Acting as a disclosed limited agent", "Charging a higher commission than competitors"], a: 1, why: "Paying any commission to an unlicensed person is a direct violation of license law." },
+      { q: "To make a claim against the Real Estate Recovery Fund, a person must first:", choices: ["Go directly to the Real Estate Commission", "File their claim within two years of the loss", "File a lawsuit, obtain a judgment, and exhaust all legal remedies", "Show a monetary loss in excess of $20,000"], a: 2, why: "The Recovery Fund is a last resort — you must exhaust all legal remedies and have a court judgment first." },
+      { q: "The managing broker is responsible for:", choices: ["Their own actions only", "Their actions AND those of all brokers associated with them", "Only brokers they personally supervised that day", "Nothing if they carry errors and omissions insurance"], a: 1, why: "A managing broker bears legal responsibility for their own conduct and that of every affiliated broker." },
+      { q: "Earnest money must be deposited into the managing broker's escrow account:", choices: ["As soon as it is received", "Within 48 hours of the buyer's authorization", "Within 2 banking days after acceptance of the offer", "Within 48 hours of presentation of the offer"], a: 2, why: "Indiana requires earnest money to be deposited within 2 banking days after the offer is accepted — not presented." },
+      { q: "Active status licensees must complete continuing education (CE) of:", choices: ["12 hours per calendar year", "16 hours per calendar year", "12 hours each license year", "36 hours every three years"], a: 2, why: "Active licensees must complete 12 hours of CE each license year — the license year, not the calendar year." },
+      { q: "Which would be a violation of license law?", choices: ["Offering a free home warranty with full disclosure", "Acting as broker and disclosed principal", "Acting as dual agent with only the oral consent of both parties", "Offering part of the listing commission to cooperating brokers"], a: 2, why: "Dual agency requires EXPRESS WRITTEN consent from both parties. Oral consent alone is a violation." },
+      { q: "A licensee purchasing property from a private owner must:", choices: ["Disclose their true estimate of market value", "Try to market the property before making any offer", "Disclose that they are a licensed agent", "Tell the seller if the property appears underpriced"], a: 2, why: "A licensee must always disclose their licensed status when purchasing property from a private owner." },
+      { q: "Net listings in Indiana are:", choices: ["Legal with written consent of all parties", "Legal if the fee is stated as a maximum amount", "Not legal", "Legal if the broker nets no more than the seller"], a: 2, why: "Net listings are illegal in Indiana, regardless of consent or disclosure." },
+      { q: "Under an Exclusive-Right-to-Sell listing, the broker is paid:", choices: ["Only if they personally find the buyer", "Only if no other broker is involved", "Regardless of who sells the property", "Only if the seller agrees at the time of closing"], a: 2, why: "An exclusive-right-to-sell listing means the broker earns a commission no matter who sells the property." },
+      { q: "Assuring a buyer that a property will definitely increase in value is:", choices: ["Acceptable if you genuinely believe it", "Acceptable if disclosed in writing", "Acceptable puffing — just an opinion", "A violation of license law"], a: 3, why: "Guaranteeing future appreciation is a license law violation. No licensee can promise future property value." },
+      { q: "All purchase agreements in Indiana must be:", choices: ["Oral if both parties verbally agree", "In writing — either paper or electronic format", "Presented to the seller within 24 hours of signing", "Notarized to be enforceable"], a: 1, why: "Indiana requires all purchase agreements to be in writing, whether on paper or in electronic format." },
     ],
   },
 ];
@@ -2053,6 +2070,7 @@ function DeedMap() {
       </div>
     );
   }
+
 
   const atFinish = current.position >= BOARD.length - 1;
 
@@ -2847,6 +2865,75 @@ const ILLO = {
       <text x="70" y="78" textAnchor="middle" fontSize="10" fill={c} fontWeight="bold">= value</text>
     </svg>
   ),
+  "Who Needs a License?": (c) => (
+    <svg viewBox="0 0 160 100" width="100%" height="90">
+      <Stick x={40} y={15} fill={c} label="compensation" />
+      <rect x="18" y="60" width="44" height="14" rx="3" fill={c} />
+      <text x="40" y="70" textAnchor="middle" fontSize="7" fill="#fff" fontWeight="bold">NEEDS LICENSE</text>
+      <Stick x={120} y={15} fill="#bbb" label="no fee" />
+      <rect x="98" y="60" width="44" height="14" rx="3" fill="#ddd" />
+      <text x="120" y="70" textAnchor="middle" fontSize="7" fill="#777" fontWeight="bold">no license</text>
+      <text x="80" y="92" textAnchor="middle" fontSize="7.5" fill={c}>pay = license required</text>
+    </svg>
+  ),
+  "Managing Broker Duties": (c) => (
+    <svg viewBox="0 0 160 100" width="100%" height="90">
+      <Stick x={80} y={6} fill={c} label="managing broker" />
+      <line x1="65" y1="55" x2="35" y2="68" stroke={c} strokeWidth="2" />
+      <line x1="80" y1="55" x2="80" y2="68" stroke={c} strokeWidth="2" />
+      <line x1="95" y1="55" x2="125" y2="68" stroke={c} strokeWidth="2" />
+      <Stick x={35} y={57} fill={c} />
+      <Stick x={80} y={57} fill={c} />
+      <Stick x={125} y={57} fill={c} />
+      <text x="80" y="96" textAnchor="middle" fontSize="7" fill={c}>responsible for ALL associates</text>
+    </svg>
+  ),
+  "Trust (Escrow) Accounts": (c) => (
+    <svg viewBox="0 0 160 100" width="100%" height="90">
+      <text x="80" y="16" textAnchor="middle" fontSize="9" fill={c} fontWeight="bold">earnest money</text>
+      <text x="80" y="38" textAnchor="middle" fontSize="7.5" fill={c}>accepted offer</text>
+      <line x1="80" y1="24" x2="80" y2="48" stroke={c} strokeWidth="2" />
+      <polygon points="74,46 86,46 80,54" fill={c} />
+      <rect x="45" y="55" width="70" height="22" rx="4" fill="none" stroke={c} strokeWidth="2" />
+      <text x="80" y="70" textAnchor="middle" fontSize="9" fill={c} fontWeight="bold">ESCROW</text>
+      <text x="80" y="88" textAnchor="middle" fontSize="7.5" fill={c}>within 2 banking days</text>
+    </svg>
+  ),
+  "Required Disclosures": (c) => (
+    <svg viewBox="0 0 160 100" width="100%" height="90">
+      <Stick x={28} y={10} fill={c} label="licensee" />
+      <rect x="50" y="15" width="96" height="50" rx="4" fill="none" stroke={c} strokeWidth="2" />
+      <text x="98" y="30" textAnchor="middle" fontSize="8" fill={c} fontWeight="bold">MUST DISCLOSE:</text>
+      <text x="98" y="43" textAnchor="middle" fontSize="7" fill={c}>ownership interest (in writing)</text>
+      <text x="98" y="55" textAnchor="middle" fontSize="7" fill={c}>licensed status when buying</text>
+      <text x="80" y="80" textAnchor="middle" fontSize="7" fill={c}>always written — never just verbal</text>
+    </svg>
+  ),
+  "License Law Violations": (c) => (
+    <svg viewBox="0 0 160 100" width="100%" height="90">
+      {["Pay unlicensed person", "Commingle escrow funds", "Guarantee property value", "Dual agency — oral only"].map((t, i) => (
+        <g key={i} transform={"translate(0," + (i * 21) + ")"}>
+          <circle cx="14" cy="12" r="7" fill="#c62828" />
+          <text x="14" y="16" textAnchor="middle" fontSize="10" fill="#fff" fontWeight="bold">!</text>
+          <text x="28" y="16" fontSize="8" fill={c}>{t}</text>
+        </g>
+      ))}
+    </svg>
+  ),
+  "Real Estate Recovery Fund": (c) => (
+    <svg viewBox="0 0 160 100" width="100%" height="90">
+      {[["File lawsuit", 8], ["Get judgment", 34], ["Exhaust remedies", 60]].map(([t, y], idx) => (
+        <g key={t}>
+          <rect x="18" y={y} width="88" height="16" rx="4" fill="none" stroke={c} strokeWidth="1.5" />
+          <text x="62" y={y + 11} textAnchor="middle" fontSize="7.5" fill={c} fontWeight="bold">{idx + 1}. {t}</text>
+          {idx < 2 && <line x1="62" y1={y + 16} x2="62" y2={y + 18} stroke={c} strokeWidth="1.5" />}
+          {idx < 2 && <polygon points={"56," + (y + 20) + " 68," + (y + 20) + " 62," + (y + 26)} fill={c} />}
+        </g>
+      ))}
+      <rect x="115" y="34" width="36" height="22" rx="4" fill={c} />
+      <text x="133" y="49" textAnchor="middle" fontSize="7.5" fill="#fff" fontWeight="bold">FUND</text>
+    </svg>
+  ),
 };
 
 function recapIcons(letters, c) {
@@ -2869,6 +2956,7 @@ const RECAP_LETTERS = {
   "Recap — Land Use": ["P", "E", "T", "E"],
   "Recap — Valuation": ["SC", "CA", "IA"],
   "Recap — Financing": ["NOTE", "MTG"],
+  "Recap — License Law": ["LIC", "MB", "ESC", "DIS", "VIO"],
   "Recap — Agency": ["O", "L", "D", "C", "A", "R"],
   "Recap — Contracts": ["O+A", "CON", "CAP", "LEG"],
   "Recap — Practice": ["FH", "ST", "BB", "RL"],
@@ -3176,19 +3264,14 @@ __root.render(React.createElement(CombinedApp));
 (function () {
   var src = document.getElementById("app-source").textContent;
   var errorBox = function (msg) {
-    document.getElementById("root").innerHTML =
-      '<div style="font-family:sans-serif;padding:24px;color:#A8392F;border:2px solid #A8392F;border-radius:8px;background:#FCE0E0;margin:20px;">' +
-      '<strong>Something went wrong loading the page:</strong><br><pre style="white-space:pre-wrap;font-size:12px;">' +
-      msg.replace(/</g, "&lt;") + '</pre></div>';
+    document.getElementById("root").innerHTML = '<div style="font-family:sans-serif;padding:24px;color:#A8392F;border:2px solid #A8392F;border-radius:8px;background:#FCE0E0;margin:20px;"><strong>Something went wrong:</strong><br><pre style="white-space:pre-wrap;font-size:12px;">' + msg.replace(/</g,"&lt;") + '</pre></div>';
   };
   try {
     var out = Babel.transform(src, { presets: [["react", { runtime: "classic" }]] }).code;
     var script = document.createElement("script");
     script.text = out;
     document.body.appendChild(script);
-  } catch (e) {
-    errorBox((e && e.stack) || String(e));
-  }
+  } catch (e) { errorBox((e && e.stack) || String(e)); }
 })();
 </script>
 </body>
