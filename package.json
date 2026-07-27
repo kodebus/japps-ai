@@ -1,0 +1,6 @@
+{
+  "name": "japps-api",
+  "version": "1.0.0",
+  "description": "Japps.ai serverless API functions",
+  "private": true
+}
