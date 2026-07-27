@@ -892,6 +892,54 @@
     .hero-stats { gap: 1.5rem; }
   }
 
+  /* ─── LEAVE A REVIEW ─── */
+  #leave-review {
+    background: var(--bg);
+  }
+
+  .review-form-wrap {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .review-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .review-form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .review-stars {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .review-star {
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: var(--border);
+    transition: color 0.15s;
+    line-height: 1;
+  }
+
+  .review-star.active,
+  .review-star:hover { color: var(--accent); }
+
+  .review-note {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 1.5rem;
+    text-align: center;
+  }
+
+  .review-note a { color: var(--accent); text-decoration: none; }
+
   .reveal {
     opacity: 0;
     transform: translateY(30px);
@@ -912,6 +960,7 @@
     <li><a href="#maintenance">Maintenance</a></li>
     <li><a href="#portfolio">Portfolio</a></li>
     <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#leave-review">Leave a Review</a></li>
     <li><a href="#contact" class="nav-cta">Get Started</a></li>
   </ul>
 </nav>
@@ -1278,7 +1327,7 @@
           <h3>Grab It</h3>
           <p>A Chrome extension built for Salesforce OmniStudio developers. Automatically detects your active component, captures story numbers and descriptions, and generates daily, weekly, or monthly work reports in one click — all stored locally in your browser.</p>
           <div class="portfolio-links">
-            <a href="https://www.japps.ai/grabit/" target="_blank" class="portfolio-link portfolio-link-gh">🌐 Visit Website</a>
+            <a href="https://kodebus.github.io/GrabIt/" target="_blank" class="portfolio-link portfolio-link-gh">🌐 Visit Website</a>
             <a href="https://chromewebstore.google.com/detail/grab-it/lnjcjhobpggdembdgajicfjigaifpncl" target="_blank" class="portfolio-link portfolio-link-gh">🧩 Chrome Store</a>
             <a href="https://github.com/kodebus" target="_blank" class="portfolio-link portfolio-link-gh">⌥ GitHub</a>
           </div>
@@ -1336,107 +1385,6 @@
         </div>
       </div>
 
-     <!-- Deed Map -->
-      <div class="portfolio-card reveal">
-        <div class="portfolio-preview">
-          <div class="portfolio-preview-inner">
-            <div class="preview-topbar">
-              <div class="preview-dot" style="background:#e05555"></div>
-              <div class="preview-dot" style="background:#e0a855"></div>
-              <div class="preview-dot" style="background:#55e07a"></div>
-            </div>
-            <div class="preview-body">
-              <div class="preview-stat">
-                <div class="preview-stat-label">Players</div>
-                <div class="preview-stat-val">2</div>
-              </div>
-              <div class="preview-stat">
-                <div class="preview-stat-label">Turn</div>
-                <div class="preview-stat-val">P1</div>
-              </div>
-              <div class="preview-stat">
-                <div class="preview-stat-label">Dice</div>
-                <div class="preview-stat-val">⚄ 5</div>
-              </div>
-              <div class="preview-bar-wrap">
-                <div class="preview-bar-row">
-                  <div class="preview-bar-label">Contracts</div>
-                  <div class="preview-bar-track"><div class="preview-bar-fill" style="width:70%"></div></div>
-                </div>
-                <div class="preview-bar-row">
-                  <div class="preview-bar-label">Finance</div>
-                  <div class="preview-bar-track"><div class="preview-bar-fill" style="width:55%"></div></div>
-                </div>
-                <div class="preview-bar-row">
-                  <div class="preview-bar-label">Ethics</div>
-                  <div class="preview-bar-track"><div class="preview-bar-fill" style="width:85%"></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="portfolio-body">
-          <div class="portfolio-tags">
-            <span class="portfolio-tag">Board Game</span>
-            <span class="portfolio-tag">Real Estate</span>
-            <span class="portfolio-tag">Exam Prep</span>
-          </div>
-          <h3>Learning Real Estate</h3>
-          <p>A Monopoly/Candy Land-style board game built to make real estate licensing exam prep actually fun. Roll the dice, land on lesson cards covering contracts, finance, and ethics, and quiz your way around the board — solo or 2-player.</p>
-          <div class="portfolio-links">
-            <a href="https://japps.ai/realestate/" target="_blank" class="portfolio-link portfolio-link-gh">🌐 Visit Website</a>
-          </div>
-        </div>
-      </div>
-
-
-      <!-- Kaystyle -->
-      <div class="portfolio-card reveal">
-        <div class="portfolio-preview">
-          <div class="portfolio-preview-inner">
-            <div class="preview-topbar">
-              <div class="preview-dot" style="background:#e05555"></div>
-              <div class="preview-dot" style="background:#e0a855"></div>
-              <div class="preview-dot" style="background:#55e07a"></div>
-            </div>
-            <div class="preview-body" style="grid-template-columns:1fr;gap:6px;align-content:start;">
-              <div class="preview-stat" style="display:flex;align-items:center;gap:8px;background:rgba(184,71,43,0.12);border-color:rgba(184,71,43,0.3);">
-                <div style="width:8px;height:8px;border-radius:50%;background:#D9A23B;flex-shrink:0;"></div>
-                <div style="font-size:8px;color:#D9A23B;font-family:'Nunito',sans-serif;font-weight:700;">🎨 Karla Martinez — Pinturas al Óleo</div>
-              </div>
-              <div class="preview-bar-wrap">
-                <div class="preview-bar-row">
-                  <div class="preview-bar-label">Landscapes</div>
-                  <div class="preview-bar-track"><div class="preview-bar-fill" style="width:90%"></div></div>
-                </div>
-                <div class="preview-bar-row">
-                  <div class="preview-bar-label">Portraits</div>
-                  <div class="preview-bar-track"><div class="preview-bar-fill" style="width:60%"></div></div>
-                </div>
-                <div class="preview-bar-row">
-                  <div class="preview-bar-label">Abstract</div>
-                  <div class="preview-bar-track"><div class="preview-bar-fill" style="width:75%"></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="portfolio-body">
-          <div class="portfolio-tags">
-            <span class="portfolio-tag">Client Site</span>
-            <span class="portfolio-tag">Artist Portfolio</span>
-            <span class="portfolio-tag">Oil Painting</span>
-            <span class="portfolio-tag">Ecuador</span>
-          </div>
-          <h3>Kaystyle — Karla Martinez</h3>
-          <p>A bilingual artist portfolio for Ecuadorian oil painter Karla Martinez, who signs her work as "Kay." Features 30+ years of original paintings, an exhibition history page, and an international shipping inquiry form.</p>
-          <div class="portfolio-links">
-            <a href="https://www.japps.ai/sites/kaystyle/" target="_blank" class="portfolio-link portfolio-link-gh">🌐 Visit Website</a>
-          </div>
-        </div>
-      </div>
-
-
       <!-- Placeholder card -->
       <div class="portfolio-card reveal" style="border-style:dashed;display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:340px;text-align:center;padding:2rem;gap:0.8rem;">
         <div style="width:56px;height:56px;border-radius:50%;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.2);display:flex;align-items:center;justify-content:center;font-size:1.5rem;">+</div>
@@ -1454,39 +1402,14 @@
   <div class="section-inner">
     <div class="reveal" style="text-align:center">
       <div class="section-tag">What Clients Say</div>
-      <h2 class="section-title">Results speak for themselves.</h2>
-      <p class="section-sub" style="margin:0 auto 3.5rem">Businesses of all sizes trust Japps.ai to bring their ideas to life.</p>
+      <h2 class="section-title">Real reviews.<br><span class="grad-text">Coming soon.</span></h2>
+      <p class="section-sub" style="margin:0 auto 2rem">We're just getting started — and we'd love for your experience to be the first one here.</p>
     </div>
-    <div class="testi-grid">
-      <div class="testi-card reveal">
-        <div class="testi-text">Working with Japps.ai was a game-changer. They built our client portal in under a week. I was blown away by how fast and polished it turned out.</div>
-        <div class="testi-author">
-          <div class="testi-avatar">MR</div>
-          <div>
-            <div class="testi-name">Marcus R.</div>
-            <div class="testi-role">Owner, Riverside Consulting</div>
-          </div>
-        </div>
-      </div>
-      <div class="testi-card reveal">
-        <div class="testi-text">I had an idea for a booking system but no budget for a big agency. Japps.ai made it happen at a price I could actually afford. Highly recommend.</div>
-        <div class="testi-author">
-          <div class="testi-avatar">SP</div>
-          <div>
-            <div class="testi-name">Sofia P.</div>
-            <div class="testi-role">Founder, Studio Eleven</div>
-          </div>
-        </div>
-      </div>
-      <div class="testi-card reveal">
-        <div class="testi-text">From idea to live app in 10 days. Our internal team productivity jumped 40% after switching to the custom CRM Japps.ai built for us. Worth every penny.</div>
-        <div class="testi-author">
-          <div class="testi-avatar">DK</div>
-          <div>
-            <div class="testi-name">David K.</div>
-            <div class="testi-role">Operations Lead, FieldForce LLC</div>
-          </div>
-        </div>
+    <div class="reveal" style="text-align:center;">
+      <div style="display:inline-flex;flex-direction:column;align-items:center;gap:1.5rem;background:var(--card);border:1px dashed var(--border);border-radius:20px;padding:3rem 4rem;max-width:560px;">
+        <div style="font-size:3rem;opacity:0.3;">✦</div>
+        <p style="color:var(--muted);font-size:1rem;line-height:1.7;font-weight:300;max-width:380px;">Have you worked with Japps.ai? Be the first to share your experience and help other businesses make the right call.</p>
+        <a href="#leave-review" class="btn-primary" style="font-size:0.9rem;padding:0.75rem 1.8rem;">Leave a Review →</a>
       </div>
     </div>
   </div>
@@ -1538,6 +1461,55 @@
         </div>
         <button class="form-submit" type="button" onclick="handleSubmit(this)">Send Message →</button>
         <p style="font-size:0.78rem;color:var(--muted);margin-top:0.5rem;text-align:center">Or email us directly at <a href="mailto:info@japps.ai" style="color:var(--accent);text-decoration:none;">info@japps.ai</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LEAVE A REVIEW -->
+<section id="leave-review">
+  <div class="section-inner">
+    <div class="reveal" style="text-align:center">
+      <div class="section-tag">Leave a Review</div>
+      <h2 class="section-title">Worked with us?<br><span class="grad-text">We'd love to hear from you.</span></h2>
+      <p class="section-sub" style="margin:0 auto 3rem">Your feedback helps other businesses trust us with their projects — and helps us keep improving. Takes less than 2 minutes.</p>
+    </div>
+    <div class="review-form-wrap reveal">
+      <div class="review-form" id="reviewForm">
+        <div class="review-form-row">
+          <div class="field">
+            <label>Your Name</label>
+            <input type="text" id="reviewName" placeholder="Jane Smith"/>
+          </div>
+          <div class="field">
+            <label>Company / Role</label>
+            <input type="text" id="reviewRole" placeholder="Founder, Acme Co."/>
+          </div>
+        </div>
+        <div class="field">
+          <label>Project Type</label>
+          <select id="reviewProject">
+            <option value="">What did we build for you?</option>
+            <option>Website / Landing Page</option>
+            <option>Custom Web Application</option>
+            <option>CRM / Business Tool</option>
+            <option>AI Integration</option>
+            <option>Automation / API</option>
+            <option>Salesforce / OmniStudio</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Your Review</label>
+          <textarea id="reviewText" placeholder="Tell us about your experience working with Japps.ai — what we built, how it went, and what you'd tell someone considering working with us." style="min-height:130px;resize:vertical;"></textarea>
+          <div style="display:flex;align-items:center;gap:0.8rem;margin-top:0.5rem;flex-wrap:wrap;">
+            <button type="button" onclick="polishReview(this)" style="display:inline-flex;align-items:center;gap:0.4rem;background:rgba(201,168,76,0.08);border:1px solid rgba(201,168,76,0.3);color:var(--accent);padding:0.45rem 1rem;border-radius:6px;font-size:0.82rem;font-weight:600;font-family:'Nunito',sans-serif;cursor:pointer;transition:all 0.2s;">✨ Polish with AI</button>
+            <span id="polishStatus" style="font-size:0.78rem;color:var(--muted);display:none;"></span>
+            <button type="button" id="revertBtn" onclick="revertReview()" style="display:none;font-size:0.78rem;color:var(--muted);background:none;border:none;cursor:pointer;text-decoration:underline;font-family:'Plus Jakarta Sans',sans-serif;">↩ Revert to original</button>
+          </div>
+        </div>
+        <button class="form-submit" type="button" onclick="handleReviewSubmit(this)">Submit Review →</button>
+        <p class="review-note">Reviews are submitted privately to our team. We'll reach out before publishing anything publicly. Your email is never required. Questions? <a href="mailto:info@japps.ai">info@japps.ai</a></p>
       </div>
     </div>
   </div>
@@ -1609,6 +1581,171 @@
       btn.style.background = '#7a2020';
       setTimeout(() => {
         btn.textContent = 'Send Message →';
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 3000);
+    }
+  }
+
+  let originalReviewText = null;
+
+  async function handleReviewSubmit(btn) {
+    const name = document.getElementById('reviewName').value.trim();
+    const role = document.getElementById('reviewRole').value.trim();
+    const project = document.getElementById('reviewProject').value;
+    const text = document.getElementById('reviewText').value.trim();
+
+    if (!name || !text) {
+      alert('Please fill in at least your name and review.');
+      return;
+    }
+
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch('https://formspree.io/f/mgopelzy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          _subject: '⭐ New Review from ' + name,
+          name,
+          companyRole: role,
+          projectType: project,
+          review: text,
+          source: 'japps.ai review form'
+        })
+      });
+
+      if (res.ok) {
+        btn.textContent = '✓ Review Submitted — Thank you!';
+        btn.style.background = 'linear-gradient(135deg, #b8972a, #e8c96e)';
+        document.getElementById('reviewName').value = '';
+        document.getElementById('reviewRole').value = '';
+        document.getElementById('reviewProject').value = '';
+        document.getElementById('reviewText').value = '';
+        originalReviewText = null;
+        document.getElementById('revertBtn').style.display = 'none';
+        setTimeout(() => {
+          btn.textContent = 'Submit Review →';
+          btn.style.background = '';
+          btn.disabled = false;
+        }, 5000);
+      } else {
+        throw new Error('Failed');
+      }
+    } catch (e) {
+      btn.textContent = 'Something went wrong — try again';
+      btn.style.background = '#7a2020';
+      setTimeout(() => {
+        btn.textContent = 'Submit Review →';
+        btn.style.background = '';
+        btn.disabled = false;
+      }, 3000);
+    }
+  }
+
+  async function polishReview(btn) {
+    const textarea = document.getElementById('reviewText');
+    const text = textarea.value.trim();
+    const status = document.getElementById('polishStatus');
+    const revertBtn = document.getElementById('revertBtn');
+
+    if (!text) {
+      status.style.display = 'inline';
+      status.textContent = 'Write something first!';
+      setTimeout(() => { status.style.display = 'none'; }, 2000);
+      return;
+    }
+
+    originalReviewText = text;
+    btn.textContent = '✨ Polishing...';
+    btn.disabled = true;
+    status.style.display = 'inline';
+    status.textContent = 'Improving your review...';
+
+    try {
+      const response = await fetch('https://jappsai.vercel.app/api/polish-review', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text })
+      });
+
+      const data = await response.json();
+
+      if (data.polished) {
+        textarea.value = data.polished;
+        status.textContent = '✓ Polished! Feel free to edit further.';
+        revertBtn.style.display = 'inline';
+      } else {
+        throw new Error('No response');
+      }
+    } catch (e) {
+      status.textContent = 'Something went wrong — please try again.';
+    } finally {
+      btn.textContent = '✨ Polish with AI';
+      btn.disabled = false;
+      setTimeout(() => { status.style.display = 'none'; }, 4000);
+    }
+  }
+
+  function revertReview() {
+    if (originalReviewText !== null) {
+      document.getElementById('reviewText').value = originalReviewText;
+      document.getElementById('revertBtn').style.display = 'none';
+      document.getElementById('polishStatus').style.display = 'none';
+    }
+  }
+</script>
+</body>
+</html>
+    const name = document.getElementById('reviewName').value.trim();
+    const role = document.getElementById('reviewRole').value.trim();
+    const project = document.getElementById('reviewProject').value;
+    const text = document.getElementById('reviewText').value.trim();
+
+    if (!name || !text) {
+      alert('Please fill in at least your name and review.');
+      return;
+    }
+
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+
+    try {
+      const res = await fetch('https://formspree.io/f/mgopelzy', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          _subject: '⭐ New Review from ' + name,
+          name,
+          companyRole: role,
+          projectType: project,
+          review: text,
+          source: 'japps.ai review form'
+        })
+      });
+
+      if (res.ok) {
+        btn.textContent = '✓ Review Submitted — Thank you!';
+        btn.style.background = 'linear-gradient(135deg, #b8972a, #e8c96e)';
+        document.getElementById('reviewName').value = '';
+        document.getElementById('reviewRole').value = '';
+        document.getElementById('reviewProject').value = '';
+        document.getElementById('reviewText').value = '';
+        setTimeout(() => {
+          btn.textContent = 'Submit Review →';
+          btn.style.background = '';
+          btn.disabled = false;
+        }, 5000);
+      } else {
+        throw new Error('Failed');
+      }
+    } catch (e) {
+      btn.textContent = 'Something went wrong — try again';
+      btn.style.background = '#7a2020';
+      setTimeout(() => {
+        btn.textContent = 'Submit Review →';
         btn.style.background = '';
         btn.disabled = false;
       }, 3000);
