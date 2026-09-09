@@ -1,10 +1,8 @@
-export default async function handler(req, res) {
-  // Allow requests from japps.ai only
+module.exports = async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', 'https://www.japps.ai');
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-  // Handle preflight
   if (req.method === 'OPTIONS') {
     return res.status(200).end();
   }
